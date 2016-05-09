@@ -63,17 +63,28 @@ $(document).ready(function(){
   // boardData = [[1,2, 3], [4, 5, 6], [7, 8, 9]];
   boardData = [[null,null, null], [null, null, null], [null, null, null]];
 
-    function huhuhu(){
+    function checkWin(){
       for (var i = 0; i < boardData.length; i++) {
-        for (var y = 0; y < boardData[i].length; y++){
-          if (boardData[i][y]=== true){
-          if(boardData[i][y] === boardData[i+1][y] && boardData[i+1][y] === boardData[i+2][y]){
-            console.log('YOU WON');
-          }
-        }
-          }
-      }
-    }
+          for (var y = 0; y < boardData[i].length; y++){
+            // Check horizontal
+            if(boardData[i][y] !== null && boardData[i][y] === boardData[i][y+1] && boardData[i][y+1] === boardData[i][y+2]){
+              console.log('horizontal WON');
+              //Check vertical
+            } else if (boardData[i][y] !== null && boardData[i][y] === boardData[i+1][y] && boardData[i+1][y] === boardData[i+2][y]){
+              console.log('vertical WON');
+              //Check diagonal from top left
+            } else if ((boardData[i+1][y+1] !== null && boardData[i][y] === boardData[i+1][y+1] && boardData[i+1][y+1] === boardData[i+2][y+2])){
+              console.log('diagonal Left');
+              //Check diagonal from top right
+            } else if (boardData[i+1][y+1] !== null && boardData[i+2][y] === boardData[i+1][y+1] && boardData[i+1][y+1] === boardData[i][y+2]){
+           console.log('diagonal Right');
+         }
+       }
+     }
+   }
+
+
+
 
 
 //To map the value onto the boardData as user clicks on the board
@@ -83,6 +94,9 @@ $(document).ready(function(){
     if (boardData[rowIndex][columnIndex] !== null){
       return false;
     }
+    if (count >= 8){
+      console.log('Draw');
+    }
     if (count % 2 === 0){
       $(this).text('x');
       boardData[rowIndex][columnIndex] = 'x';
@@ -91,26 +105,16 @@ $(document).ready(function(){
       boardData[rowIndex][columnIndex] = 'o';
     }
     count ++;
-    huhuhu();
-    console.log(boardData[rowIndex][columnIndex]);
+    checkWin();
   }
 
   column.on('click', getIndices);
-
-
-//Setting the winning combination
-  function halooo (){
-    if (boardData[0][0] === boardData[0][1] && boardData[0][1] === boardData [0][2]){
-      console.log('You won!');
-    }
-  }
-  halooo;
-
 
   // Creating a reset button
     body.append($('<button id="reset">').text('Reset'));
     $('#reset').on('click', function(){
       column.empty();
+      boardData = [[null,null, null], [null, null, null], [null, null, null]];
       count = 0;
     });
 
