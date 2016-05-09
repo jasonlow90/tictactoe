@@ -1,10 +1,12 @@
 var boardData;
 var sumOfRow;
 var count = 0;
-
+var playerOne, playerTwo;
+var currentPlayer;
 $(document).ready(function(){
   // Mapping CSS selector to variables to make life simpler:
-
+  var playerOne = prompt("Player 1's name?");
+  var playerTwo = prompt("Player 2's name?");
   var body = $('body');
 
   body.append('<div class ="board">');
@@ -53,7 +55,8 @@ $(document).ready(function(){
         'border-color': 'black',
         'width': '200px',
         'height': '200px',
-        'text-align': 'center'
+        'text-align': 'center',
+        'font-size': '150px'
       })
   // }) //End of button;
 
@@ -68,16 +71,20 @@ $(document).ready(function(){
           for (var y = 0; y < boardData[i].length; y++){
             // Check horizontal
             if(boardData[i][y] !== null && boardData[i][y] === boardData[i][y+1] && boardData[i][y+1] === boardData[i][y+2]){
-              console.log('horizontal WON');
+              messageBoard.text(currentPlayer + ' won!');
+              alert('horizontal WON');
               //Check vertical
             } else if (boardData[i][y] !== null && boardData[i][y] === boardData[i+1][y] && boardData[i+1][y] === boardData[i+2][y]){
-              console.log('vertical WON');
+              messageBoard.text(currentPlayer + ' won!');
+              alert('horizontal WON');
               //Check diagonal from top left
             } else if ((boardData[i+1][y+1] !== null && boardData[i][y] === boardData[i+1][y+1] && boardData[i+1][y+1] === boardData[i+2][y+2])){
-              console.log('diagonal Left');
+              messageBoard.text(currentPlayer + ' won!');
+              alert('horizontal WON');
               //Check diagonal from top right
             } else if (boardData[i+1][y+1] !== null && boardData[i+2][y] === boardData[i+1][y+1] && boardData[i+1][y+1] === boardData[i][y+2]){
-           console.log('diagonal Right');
+              messageBoard.text(currentPlayer + ' won!');
+              alert('horizontal WON');
          }
        }
      }
@@ -91,20 +98,27 @@ $(document).ready(function(){
   function getIndices (){
     var rowIndex = $(this).parent().attr('class').split(' ')[1];
     var columnIndex = $(this).attr('class').split(' ')[1];
+    //To reject overwriting any grid that already has been clicked
     if (boardData[rowIndex][columnIndex] !== null){
       return false;
     }
-    if (count >= 8){
-      console.log('Draw');
-    }
-    if (count % 2 === 0){
+    count ++;
+    //To review draw when no winner is decided at the end of the round
+    //To alternate between player 1 and 2
+    if (count === 9){
+      messageBoard.text("It's a draw!");
+    } else if (count % 2 === 0){
+      currentPlayer = playerOne;
+      messageBoard.text(currentPlayer + "'s turn");
       $(this).text('x');
       boardData[rowIndex][columnIndex] = 'x';
-    } else {
+    } else if (count % 2 !== 0){
+      currentPlayer = playerTwo;
+      messageBoard.text(currentPlayer + "'s turn");
       $(this).text('o');
       boardData[rowIndex][columnIndex] = 'o';
     }
-    count ++;
+
     checkWin();
   }
 
@@ -117,5 +131,23 @@ $(document).ready(function(){
       boardData = [[null,null, null], [null, null, null], [null, null, null]];
       count = 0;
     });
+
+    // Creating a message board
+    body.append($('<h3 id="message">'));
+    var messageBoard = $('#message');
+      // if (count === 9){
+      //   messageBoard.text("It's a draw!");
+      // } else if (count % 2 === 0){
+      //   messageBoard.text("Player 1's turn");
+      //   $(this).text('x');
+      //   boardData[rowIndex][columnIndex] = 'x';
+      // } else if (count % 2 !== 0){
+      //   messageBoard.text("Player 2's turn");
+      //   $(this).text('o');
+      //   boardData[rowIndex][columnIndex] = 'o';
+      // }
+
+
+
 
 });
