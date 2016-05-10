@@ -9,6 +9,8 @@ var playerOneScore=0, playerTwoScore=0;
 var currentPlayer;
 var numberOfRounds = 5;
 var currentRoundNumber = 0;
+// var boardData = [[null,null, null], [null, null, null], [null, null, null]];
+
 $(document).ready(function(){
   // Mapping CSS selector to variables to make life simpler:
   var playerOne = prompt("Player 1's name?");
@@ -186,15 +188,14 @@ $(document).ready(function(){
 // Make a turn for the currentPlayer when timer is up
 
   function randomPlacement(){
-    for (var i = 0; i < boardData.length; i++) {
-      for (var y = 0; y < boardData[i].length; y++) {
-        if (boardData[i][y] !== null) {
 
-        }
-      }
+    function randomNumber(){
+      Math.round(Math.random()*2);
     }
-  }
+    boardData[randomNumber()][randomNumber()] = 'x';
+    $('.'+randomNumber()+'>.'+ randomNumber()).text('x');
 
+}
 // Setting the timer function to count down
     function countDown(){
       myCountDown = window.setInterval(function(){
