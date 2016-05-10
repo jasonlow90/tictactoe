@@ -1,18 +1,31 @@
 var boardData;
 var sumOfRow;
-var count = 0;
+var turn = 0;
+var timer;
+var timerLength = 10;
+var secondsPassed = 0;
 var playerOne, playerTwo;
 var currentPlayer;
+var numberOfRounds = 5;
+var currentRoundNumber = 0;
 $(document).ready(function(){
   // Mapping CSS selector to variables to make life simpler:
   var playerOne = prompt("Player 1's name?");
   var playerTwo = prompt("Player 2's name?");
+  // currentPlayer = playerOne;
   var body = $('body');
 
   body.append('<div class ="board">');
   var board = $('.board');
 
   body.append($('<button class="start">'));
+  // Creating a message board
+  board.append($('<h1 id="message">').css('top', '-25px'));
+  var messageBoard = $('#message');
+
+  // Making the timer
+  board.append($('<h1 id="timer">').css('bottom', '-50px'));
+  var timer = $('#timer');
 
   var column, row;
   //Creating a button to generate the board of the tictactoe; along with 3x3 rows and columns
@@ -41,7 +54,10 @@ $(document).ready(function(){
         'border': 'double',
         'border-color': 'black',
         'height': '600px',
-        'width': '600px'
+        'width': '600px',
+        'position': 'absolute',
+        'top': '25%',
+        'left': '25%'
       })
 
       row.css({
@@ -90,8 +106,19 @@ $(document).ready(function(){
      }
    }
 
+//Writing game's over function:
+  function checkRound(){
+    if(currentRoundNumber < numberOfRounds){
+      secondsPassed = 0;
+      currentRoundNumber ++;
+      column.empty();
 
-
+    } else {
+      window.clearInterval(countDown());
+      column.off('click');
+      messageBoard.text('Game Over!');
+    }
+  }
 
 
 //To map the value onto the boardData as user clicks on the board
@@ -102,25 +129,24 @@ $(document).ready(function(){
     if (boardData[rowIndex][columnIndex] !== null){
       return false;
     }
-    count ++;
     //To review draw when no winner is decided at the end of the round
     //To alternate between player 1 and 2
-    if (count === 9){
+    if (turn === 9){
       messageBoard.text("It's a draw!");
-    } else if (count % 2 === 0){
+    } else if (turn % 2 === 0){
       currentPlayer = playerOne;
-      messageBoard.text(currentPlayer + "'s turn");
+      messageBoard.text(playerTwo + "'s turn"); //Problem
       $(this).text('x');
       boardData[rowIndex][columnIndex] = 'x';
-    } else if (count % 2 !== 0){
+    } else if (turn % 2 !== 0){
       currentPlayer = playerTwo;
-      messageBoard.text(currentPlayer + "'s turn");
+      messageBoard.text(playerOne + "'s turn");
       $(this).text('o');
       boardData[rowIndex][columnIndex] = 'o';
     }
-
+    secondsPassed = 0;
+    turn ++;
     checkWin();
-  }
 
   column.on('click', getIndices);
 
@@ -129,25 +155,56 @@ $(document).ready(function(){
     $('#reset').on('click', function(){
       column.empty();
       boardData = [[null,null, null], [null, null, null], [null, null, null]];
-      count = 0;
+      turn = 0;
+      secondsPassed = 0;
     });
 
-    // Creating a message board
-    body.append($('<h3 id="message">'));
-    var messageBoard = $('#message');
-      // if (count === 9){
-      //   messageBoard.text("It's a draw!");
-      // } else if (count % 2 === 0){
-      //   messageBoard.text("Player 1's turn");
-      //   $(this).text('x');
-      //   boardData[rowIndex][columnIndex] = 'x';
-      // } else if (count % 2 !== 0){
-      //   messageBoard.text("Player 2's turn");
-      //   $(this).text('o');
-      //   boardData[rowIndex][columnIndex] = 'o';
-      // }
+// Setting the timer function to count down
+    function countDown(){
+      myCountDown = window.setInterval(function(){
+        timer.text('Time left: ' + (timerLength-secondsPassed));
+        // messageBoard.text(currentPlayer + "'s turn.")
+        if ((timerLength-secondsPassed) === 0){
+          turn ++;
+          if (turn % 2 === 0){
+            currentPlayer = playerOne;
+            messageBoard.text(currentPlayer + "'s turn.");
+          } else {
+            currentPlayer = playerTwo;
+            messageBoard.text(currentPlayer + "'s turn.");
+          }
+          secondsPassed = 0;
+        }
+        secondsPassed ++;
 
+    }, 1000)
+    }
+    countDown();
 
+// Making number of rounds
+  currentRoundNumber ++;
+  (numberOfRounds - currentRoundNumber)
 
+// //
+//   function timerTick(){
+//     myTimer = window.setInterval(function(){
+//     timer.text('Timer: ' + (timerLength - secondsPassed));
+//     console.log('Timer tick!!!');
+//     secondsPassed ++;
+//     if(secondsPassed === timerLength){
+//       console.log('Turn finished');
+//       window.clearInterval(myTimer);
+//       currentRoundNumber ++;
+//       remainingText.text('Remaining: ' + (numberOfRounds - currentRoundNumber + 1));
+//       secondsPassed = 0
+//
+//
+//       // if currentRoundNumber > 0
+// }
 
+  $('h1').css({
+    'margin': '0',
+    'padding': '0',
+    'position': 'relative '
+  })
 });
