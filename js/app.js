@@ -8,7 +8,9 @@ var playerOne, playerTwo;
 var playerOneScore=0, playerTwoScore=0;
 var currentPlayer;
 var numberOfRounds = 5;
-var currentRoundNumber = 0;
+var currentRoundNumber = 1;
+
+var storage, storage2;
 // var boardData = [[null,null, null], [null, null, null], [null, null, null]];
 
 $(document).ready(function(){
@@ -157,7 +159,9 @@ $(document).ready(function(){
     //To alternate between player 1 and 2
     if (turn === 9){
       messageBoard.text("It's a draw!")
-      checkRound();
+      turn = 0;
+      secondsPassed = 0;
+      currentPlayer = playerOne;
     } else if (turn % 2 === 0){
       turn ++;
       currentPlayer = playerTwo; //It should be the next player's turn after the click
@@ -189,12 +193,31 @@ $(document).ready(function(){
 
   function randomPlacement(){
 
-    function randomNumber(){
-      Math.round(Math.random()*2);
+    function randomNumberRow(){
+      return Math.round(Math.random()*2);
     }
-    boardData[randomNumber()][randomNumber()] = 'x';
-    $('.'+randomNumber()+'>.'+ randomNumber()).text('x');
 
+    function randomNumberColumn(){
+      return Math.round(Math.random()*2);
+    }
+    storage = randomNumberRow(); //To store the randomNumberRow
+    storage2 = randomNumberColumn();
+    randomNumberRow();
+    randomNumberColumn();
+
+    if(boardData[storage][storage2] !== null){
+      randomPlacement();
+    } else {
+      boardData[storage][storage2] = 'x';
+      if(turn % 2 === 0){
+        $('.'+storage+'>.'+ storage2).text('x');
+        boardData[storage][storage2] = 'x';
+      } else {
+        $('.'+storage+'>.'+ storage2).text('o');
+        boardData[storage][storage2] = 'o';
+      }
+
+    }
 }
 // Setting the timer function to count down
     function countDown(){
@@ -207,7 +230,13 @@ $(document).ready(function(){
         if ((timerLength-secondsPassed) === 0){
           randomPlacement();
           turn ++;
-          if (turn % 2 === 0){
+          if(turn === 9){
+              checkWin();
+              messageBoard.text("It's a draw!")
+              checkRound();
+              // turn = 0;
+              // currentPlayer = playerOne;
+            } else if (turn % 2 === 0){
             currentPlayer = playerOne;
             messageBoard.text(currentPlayer + "'s turn.");
           } else {
@@ -217,8 +246,9 @@ $(document).ready(function(){
           secondsPassed = 0;
         }
         secondsPassed ++;
+        checkWin();
 
-    }, 1000)
+    }, 100)
     }
     countDown();
 
