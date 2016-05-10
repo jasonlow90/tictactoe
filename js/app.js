@@ -134,6 +134,7 @@ $(document).ready(function(){
         currentRoundNumber ++;
       }
       turn = 0;
+      currentPlayer = playerOne;
     } else {
       window.clearInterval(myCountDown);
       column.off('click');
@@ -184,9 +185,15 @@ $(document).ready(function(){
 
 // Make a turn for the currentPlayer when timer is up
 
-function randomPlacement(){
-  
-}
+  function randomPlacement(){
+    for (var i = 0; i < boardData.length; i++) {
+      for (var y = 0; y < boardData[i].length; y++) {
+        if (boardData[i][y] !== null) {
+
+        }
+      }
+    }
+  }
 
 // Setting the timer function to count down
     function countDown(){
@@ -197,7 +204,7 @@ function randomPlacement(){
         scoreBoardTwo.text(playerTwo + ' Score: ' + playerTwoScore);
         roundRemaining.text('Rounds left: ' + (numberOfRounds - currentRoundNumber));
         if ((timerLength-secondsPassed) === 0){
-
+          randomPlacement();
           turn ++;
           if (turn % 2 === 0){
             currentPlayer = playerOne;
