@@ -8,7 +8,7 @@ var playerOne, playerTwo;
 var playerOneScore=0, playerTwoScore=0;
 var currentPlayer;
 var numberOfRounds = 5;
-var currentRoundNumber = 1;
+var currentRoundNumber = 0;
 
 var storage, storage2;
 // var boardData = [[null,null, null], [null, null, null], [null, null, null]];
@@ -123,7 +123,7 @@ $(document).ready(function(){
 
 //Writing game's over function:
   function checkRound(){
-    if(currentRoundNumber < numberOfRounds){
+    if(currentRoundNumber < (numberOfRounds - 1)){
       secondsPassed = 0;
       column.empty();
       boardData = [[null,null, null], [null, null, null], [null, null, null]];
@@ -231,11 +231,10 @@ $(document).ready(function(){
           randomPlacement();
           turn ++;
           if(turn === 9){
-              checkWin();
               messageBoard.text("It's a draw!")
-              checkRound();
-              // turn = 0;
-              // currentPlayer = playerOne;
+              turn = 0;
+              currentPlayer = playerOne;
+              column.empty();
             } else if (turn % 2 === 0){
             currentPlayer = playerOne;
             messageBoard.text(currentPlayer + "'s turn.");
@@ -244,9 +243,10 @@ $(document).ready(function(){
             messageBoard.text(currentPlayer + "'s turn.");
           }
           secondsPassed = 0;
+          checkWin();
         }
         secondsPassed ++;
-        checkWin();
+        // checkWin();
 
     }, 100)
     }
