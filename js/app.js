@@ -5,6 +5,7 @@ var timer;
 var timerLength = 10;
 var secondsPassed = 0;
 var playerOne, playerTwo;
+var playerOneScore=0, playerTwoScore=0;
 var currentPlayer;
 var numberOfRounds = 5;
 var currentRoundNumber = 0;
@@ -12,13 +13,22 @@ $(document).ready(function(){
   // Mapping CSS selector to variables to make life simpler:
   var playerOne = prompt("Player 1's name?");
   var playerTwo = prompt("Player 2's name?");
-  // currentPlayer = playerOne;
+  currentPlayer = playerOne;
   var body = $('body');
 
   body.append('<div class ="board">');
   var board = $('.board');
 
   body.append($('<button class="start">'));
+  // Creating scoreBoard
+  board.append($('<h1 id ="scoreBoardOne">'));
+  board.append($('<h1 id ="scoreBoardTwo">'));
+  board.append($('<h1 id ="roundRemaining">'));
+
+
+  scoreBoardOne = $('#scoreBoardOne');
+  scoreBoardTwo = $('#scoreBoardTwo');
+  roundRemaining = $('#roundRemaining');
   // Creating a message board
   board.append($('<h1 id="message">').css('top', '-25px'));
   var messageBoard = $('#message');
@@ -88,19 +98,20 @@ $(document).ready(function(){
             // Check horizontal
             if(boardData[i][y] !== null && boardData[i][y] === boardData[i][y+1] && boardData[i][y+1] === boardData[i][y+2]){
               messageBoard.text(currentPlayer + ' won!');
-              alert('horizontal WON');
+              alert('won');
+              checkRound();
               //Check vertical
             } else if (boardData[i][y] !== null && boardData[i][y] === boardData[i+1][y] && boardData[i+1][y] === boardData[i+2][y]){
               messageBoard.text(currentPlayer + ' won!');
-              alert('horizontal WON');
+              checkRound();
               //Check diagonal from top left
             } else if ((boardData[i+1][y+1] !== null && boardData[i][y] === boardData[i+1][y+1] && boardData[i+1][y+1] === boardData[i+2][y+2])){
               messageBoard.text(currentPlayer + ' won!');
-              alert('horizontal WON');
+              checkRound();
               //Check diagonal from top right
             } else if (boardData[i+1][y+1] !== null && boardData[i+2][y] === boardData[i+1][y+1] && boardData[i+1][y+1] === boardData[i][y+2]){
               messageBoard.text(currentPlayer + ' won!');
-              alert('horizontal WON');
+              checkRound();
          }
        }
      }
@@ -110,11 +121,21 @@ $(document).ready(function(){
   function checkRound(){
     if(currentRoundNumber < numberOfRounds){
       secondsPassed = 0;
-      currentRoundNumber ++;
       column.empty();
+      boardData = [[null,null, null], [null, null, null], [null, null, null]];
+      if (turn === 9){
+        messageBoard.text("It's a draw!")
+      } else if (turn % 2 === 0){
+        playerTwoScore ++;
+        currentRoundNumber ++;
 
+      } else if (turn % 2 !== 0){
+        playerOneScore ++;
+        currentRoundNumber ++;
+      }
+      turn = 0;
     } else {
-      window.clearInterval(countDown());
+      window.clearInterval(myCountDown);
       column.off('click');
       messageBoard.text('Game Over!');
     }
@@ -132,22 +153,24 @@ $(document).ready(function(){
     //To review draw when no winner is decided at the end of the round
     //To alternate between player 1 and 2
     if (turn === 9){
-      messageBoard.text("It's a draw!");
+      messageBoard.text("It's a draw!")
+      checkRound();
     } else if (turn % 2 === 0){
-      currentPlayer = playerOne;
-      messageBoard.text(playerTwo + "'s turn"); //Problem
+      turn ++;
+      currentPlayer = playerTwo; //It should be the next player's turn after the click
+      messageBoard.text(currentPlayer + "'s turn");
       $(this).text('x');
       boardData[rowIndex][columnIndex] = 'x';
     } else if (turn % 2 !== 0){
-      currentPlayer = playerTwo;
-      messageBoard.text(playerOne + "'s turn");
+      turn ++;
+      currentPlayer = playerOne;
+      messageBoard.text(currentPlayer + "'s turn");
       $(this).text('o');
       boardData[rowIndex][columnIndex] = 'o';
     }
     secondsPassed = 0;
-    turn ++;
     checkWin();
-
+  }
   column.on('click', getIndices);
 
   // Creating a reset button
@@ -159,12 +182,22 @@ $(document).ready(function(){
       secondsPassed = 0;
     });
 
+// Make a turn for the currentPlayer when timer is up
+
+function randomPlacement(){
+  
+}
+
 // Setting the timer function to count down
     function countDown(){
       myCountDown = window.setInterval(function(){
         timer.text('Time left: ' + (timerLength-secondsPassed));
-        // messageBoard.text(currentPlayer + "'s turn.")
+        messageBoard.text(currentPlayer + "'s turn.")
+        scoreBoardOne.text(playerOne + ' Score: ' + playerOneScore);
+        scoreBoardTwo.text(playerTwo + ' Score: ' + playerTwoScore);
+        roundRemaining.text('Rounds left: ' + (numberOfRounds - currentRoundNumber));
         if ((timerLength-secondsPassed) === 0){
+
           turn ++;
           if (turn % 2 === 0){
             currentPlayer = playerOne;
@@ -181,9 +214,6 @@ $(document).ready(function(){
     }
     countDown();
 
-// Making number of rounds
-  currentRoundNumber ++;
-  (numberOfRounds - currentRoundNumber)
 
 // //
 //   function timerTick(){
