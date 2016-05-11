@@ -23,22 +23,25 @@ $(document).ready(function(){
   body.append('<div class ="board">');
   var board = $('.board');
 
-  body.append($('<button class="start">'));
+  // body.append($('<button class="start">'));
   // Creating scoreBoard
-  board.append($('<h1 id ="scoreBoardOne">'));
-  board.append($('<h1 id ="scoreBoardTwo">'));
-  board.append($('<h1 id ="roundRemaining">'));
+  board.append($('<h1 class="scoreBoardDiv">'));
+  var scoreBoardDiv = $('.scoreBoardDiv');
+  scoreBoardDiv.append($('<h1 id ="scoreBoardOne">'));
+  scoreBoardDiv.append($('<h1 id ="scoreBoardTwo">'));
+  scoreBoardDiv.append($('<h1 id ="roundRemaining">'));
 
 
   scoreBoardOne = $('#scoreBoardOne');
   scoreBoardTwo = $('#scoreBoardTwo');
   roundRemaining = $('#roundRemaining');
   // Creating a message board
-  board.append($('<h1 id="message">').css('top', '-25px'));
+  board.append($('<h1 id="message">'));
+
   var messageBoard = $('#message');
 
   // Making the timer
-  board.append($('<h1 id="timer">').css('bottom', '-50px'));
+  board.append($('<h1 id="timer">'));
   var timer = $('#timer');
 
   var column, row;
@@ -59,35 +62,85 @@ $(document).ready(function(){
 
       column = $('.column');
 
+
+//CSS part
+
+      $('html').css({
+        'margin': '0',
+        'padding': '0',
+        'width': '100%',
+        'height': '100%'
+      });
+
       body.css({
         'text-align': 'center',
-      })
+        'margin': '0',
+        'padding': '0',
+        'width': '100%',
+        'height': '100%'
+      });
 
       board.css({
         'margin': '0 auto',
         'border': 'double',
         'border-color': 'black',
-        'height': '600px',
-        'width': '600px',
+        'height': '450px',
+        'width': '450px',
+        // 'position': 'absolute'
+        'top': '10%',
+        // 'left': '25%',
+        'position' : 'relative'
+      });
+
+      $('h1').css({
+        'margin': '0',
+        'padding': '0',
+        'position': 'absolute '
+      });
+
+      timer.css('bottom', '-50px');
+
+      messageBoard.css({
         'position': 'absolute',
-        'top': '25%',
-        'left': '25%'
+        'left': '180px',
+        'top': '-50px'
+      });
+
+      scoreBoardDiv.css({
+        'left': '-250px',
+        'font-size': '16px'
       })
+
+      scoreBoardDiv.children().css({
+        'display': 'block',
+        'position': 'relative'
+      })
+      // scoreBoardOne.css('right', '-200px');
+      //
+      // scoreBoardTwo.css({
+      //   'top': '-50px',
+      //   'right': '-200px'
+      // });
+      //
+      // roundRemaining.css({
+      //   'top': '-100px',
+      //   'right': '-250px'
+      // });
 
       row.css({
         'display': 'flex',
-        'height': '200px',
-        'width': '600px'
-      })
+        'height': '150px',
+        'width': '450px'
+      });
 
       column.css({
         'border-style': 'solid',
         'border-color': 'black',
-        'width': '200px',
-        'height': '200px',
+        'width': '150px',
+        'height': '150px',
         'text-align': 'center',
-        'font-size': '150px'
-      })
+        'font-size': '100px'
+      });
   // }) //End of button;
 
 //Fucking game logic of tic fucking tac toe
@@ -181,13 +234,13 @@ $(document).ready(function(){
   column.on('click', getIndices);
 
   // Creating a reset button
-    body.append($('<button id="reset">').text('Reset'));
-    $('#reset').on('click', function(){
-      column.empty();
-      boardData = [[null,null, null], [null, null, null], [null, null, null]];
-      turn = 0;
-      secondsPassed = 0;
-    });
+    // body.append($('<button id="reset">').text('Reset'));
+    // $('#reset').on('click', function(){
+    //   column.empty();
+    //   boardData = [[null,null, null], [null, null, null], [null, null, null]];
+    //   turn = 0;
+    //   secondsPassed = 0;
+    // });
 
 // Make a turn for the currentPlayer when timer is up
 
@@ -246,33 +299,11 @@ $(document).ready(function(){
           checkWin();
         }
         secondsPassed ++;
+        checkWin();
         // checkWin();
 
-    }, 100)
+    }, 1000)
     }
     countDown();
 
-
-// //
-//   function timerTick(){
-//     myTimer = window.setInterval(function(){
-//     timer.text('Timer: ' + (timerLength - secondsPassed));
-//     console.log('Timer tick!!!');
-//     secondsPassed ++;
-//     if(secondsPassed === timerLength){
-//       console.log('Turn finished');
-//       window.clearInterval(myTimer);
-//       currentRoundNumber ++;
-//       remainingText.text('Remaining: ' + (numberOfRounds - currentRoundNumber + 1));
-//       secondsPassed = 0
-//
-//
-//       // if currentRoundNumber > 0
-// }
-
-  $('h1').css({
-    'margin': '0',
-    'padding': '0',
-    'position': 'relative '
-  })
 });
