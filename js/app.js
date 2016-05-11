@@ -19,7 +19,7 @@ $(document).ready(function(){
   var startButton = $('#startButton');
   startButton.on('click', function(){
 
-
+    startButton.hide();
 
 
     // Mapping CSS selector to variables to make life simpler:
@@ -84,11 +84,14 @@ $(document).ready(function(){
         });
 
         body.css({
+          'background' : 'url(http://www.calljourney.com/wp-content/uploads/blackboard.jpg) no-repeat center center',
+          'background-size': 'cover',
           'text-align': 'cent er',
           'margin': '0',
           'padding': '0',
           'width': '100%',
-          'height': '100%'
+          'height': '100%',
+          'color': 'white'
         });
 
         board.css({
@@ -113,7 +116,7 @@ $(document).ready(function(){
 
         messageBoard.css({
           'position': 'absolute',
-          'left': '180px',
+          'left': '150px',
           'top': '-50px'
         });
 
@@ -255,6 +258,7 @@ $(document).ready(function(){
           } else {
             window.clearInterval(myCountDown);
             column.off('click');
+            roundRemaining.text('Rounds left: ' + (numberOfRounds - currentRoundNumber + 1));
             messageBoard.text('Game Over!');
           }
     }
@@ -316,7 +320,6 @@ $(document).ready(function(){
       if(boardData[storage][storage2] !== 0){ //To stop overwriting written grid
         randomPlacement();
       } else {
-        boardData[storage][storage2] = 1;
         if(turn % 2 === 0){
           $('.'+storage+'>.'+ storage2).text(playerOneSymbol);
           boardData[storage][storage2] = 1;
@@ -331,10 +334,10 @@ $(document).ready(function(){
       function countDown(){
         myCountDown = window.setInterval(function(){
           timer.text('Time left: ' + (timerLength-secondsPassed));
-          scoreBoardOne.text(playerOne + ' Score: ' + playerOneScore);
-          scoreBoardTwo.text(playerTwo + ' Score: ' + playerTwoScore);
+          scoreBoardOne.text(playerOne + "'s Score: " + playerOneScore);
+          scoreBoardTwo.text(playerTwo + "'s Score: " + playerTwoScore);
           messageBoard.text(nextPlayer + "'s turn.")
-          roundRemaining.text('Rounds left: ' + (numberOfRounds - currentRoundNumber));
+          roundRemaining.text('Rounds left: ' + (numberOfRounds - currentRoundNumber + 1));
           if ((timerLength-secondsPassed) === 0){
             randomPlacement();
             turn ++;
