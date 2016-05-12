@@ -9,7 +9,7 @@ var playerOne, playerTwo;
 var playerOneScore = 0;
 var playerTwoScore = 0;
 var nextPlayer, currentPlayer;
-var numberOfRounds = 5;
+var numberOfRounds;
 var currentRoundNumber = 1;
 var countDownTimer;
 
@@ -44,7 +44,7 @@ $(document).ready(function () {
     startButton.css({
       'position': 'absolute',
       'left': '44%',
-      'bottom': '35%',
+      'bottom': '30%',
       'font-size': '20px'
     })
 
@@ -62,6 +62,9 @@ $(document).ready(function () {
     labelDiv.append($("<label>Player Two's Name <input id='playerTwo' type='text' maxlength='10' value='Player Two'></label>"));
     labelDiv.append($("<label>Player One's Token <input id='playerOneSymbol' type='text' maxlength='1' value='X'></label>"));
     labelDiv.append($("<label>Player Two's Token <input id='playerTwoSymbol' type='text'  maxlength='1' value='O'></label>"));
+    labelDiv.append($("<label>Maximum number of rounds <input id='numberOfRounds' type='text'  maxlength='1' value='5'></label>"));
+
+
 
     var inputs = ($('input'));
 
@@ -73,11 +76,12 @@ $(document).ready(function () {
 
       startButton.hide();
 
-      // Mapping CSS selector to variables to make life simpler:
-      var playerOne = $('#playerOne').val();
-      var playerTwo = $('#playerTwo').val();
-      var playerOneSymbol = $('#playerOneSymbol').val();
-      var playerTwoSymbol = $('#playerTwoSymbol').val();
+      // Mapping CSS selector to variables:
+      playerOne = $('#playerOne').val();
+      playerTwo = $('#playerTwo').val();
+      playerOneSymbol = $('#playerOneSymbol').val();
+      playerTwoSymbol = $('#playerTwoSymbol').val();
+      numberOfRounds = $('#numberOfRounds').val();
 
       labelDiv.hide();
 
@@ -97,6 +101,7 @@ $(document).ready(function () {
       scoreBoardOne = $('#scoreBoardOne');
       scoreBoardTwo = $('#scoreBoardTwo');
       roundRemaining = $('#roundRemaining');
+
       // Creating a message board
       board.append($('<h1 id="message">'));
 
@@ -121,10 +126,10 @@ $(document).ready(function () {
       var timer = $('#timer');
 
 
-  //Reset button:
+  // Creating a reset button to reset the game:
           board.append($('<button id="reset">').text('Reset'));
 
-  // Crazy mode function:
+  // Crazy mode button to make the game runs fast:
           board.append($('<button id="crazyMode">').text("Don't Click Me"));
           var crazyMode = $('#crazyMode')
 
@@ -147,6 +152,7 @@ $(document).ready(function () {
           });
 
           timer.css('bottom', '-50px');
+
           messageBoard.css({
             'position': 'absolute',
             'left': '120px',
@@ -154,7 +160,7 @@ $(document).ready(function () {
           });
 
           scoreBoardDiv.css({
-            'left': '-250px',
+            'left': '-70%',
             'font-size': '16px'
           })
 
@@ -417,7 +423,7 @@ $(document).ready(function () {
             currentRoundNumber = 1;
             timerLength = 10;
             countDownTimer = 1000;
-            numberOfRounds = 5;
+            numberOfRounds = $('#numberOfRounds').val();
             countDown();
             column.on('click', getIndices);
 
@@ -427,7 +433,7 @@ $(document).ready(function () {
         crazyMode.on('click', function () {
           clearInterval(myCountDown);
           secondsPassed = 0;
-          timerLength = 1;
+          timerLength = 10;
           countDownTimer = 1;
           numberOfRounds = 1000;
           countDown();
