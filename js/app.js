@@ -3,15 +3,15 @@ var boardData;
 var sumOfRow;
 var turn = 0;
 var timer;
-// var timerLength = 10;
+var timerLength = 10;
 var secondsPassed = 0;
 var playerOne, playerTwo;
 var playerOneScore = 0;
 var playerTwoScore = 0;
 var nextPlayer, currentPlayer;
-// var numberOfRounds = 5;
+var numberOfRounds = 5;
 var currentRoundNumber = 1;
-
+var countDownTimer;
 
 var storage, storage2;
 var boardData;
@@ -19,20 +19,34 @@ var boardData;
 $(document).ready(function () {
 
     var body = $('body');
-    body.append($('<button id="startButton">').text('Start'));
-    var timerLength = prompt('Please set a length for the timer in seconds');
-    var numberOfRounds = prompt('Please set the number of rounds');
+    body.append($('<button id="startButton">').text('Normal mode'));
     var startButton = $('#startButton');
+
     startButton.on('click', function(){
 
       startButton.hide();
 
+      // var timerLength = prompt('Please set a length for the timer in seconds');
+      // var numberOfRounds = prompt('Please set the number of rounds');
 
       // Mapping CSS selector to variables to make life simpler:
       var playerOne = prompt("Player 1's name?");
       var playerTwo = prompt("Player 2's name?");
       var playerOneSymbol = prompt("Please pick a character as your token");
       var playerTwoSymbol = prompt("Please pick a character as your token");
+      // var whichMode = prompt("Please select: 1. Normal mode 2. WTF mode");
+      //
+      //   if(this === 1){
+      //     timerLength = 30;
+      //     numberOfRounds = 5;
+      //   } else if (this === 2){
+      //     timerLength = 0.1;
+      //     numberOfRounds = 1000;
+      //   } else {
+      //     whichMode;
+      //   }
+      // }
+
       nextPlayer = playerOne;
 
       body.append('<div class ="board">');
@@ -59,11 +73,6 @@ $(document).ready(function () {
       var timer = $('#timer');
 
       var column, row;
-      //Creating a button to generate the board of the tictactoe; along with 3x3 rows and columns
-      // body.append($('<button class="sta  rt">'));
-      // var button = $('button');
-      // button.text('Button');
-      // button.on('click', function(){
 
           for (var i = 0; i <= 2; i++) {
             board.append($('<div class="row ' + i + '">'));
@@ -92,34 +101,31 @@ $(document).ready(function () {
           body.css({
             'background' : 'url(http://www.calljourney.com/wp-content/uploads/blackboard.jpg) no-repeat center center',
             'background-size': 'cover',
-            'text-align': 'cent er',
+            'text-align': 'center',
             'margin': '0',
             'padding': '0',
             'width': '100%',
             'height': '100%',
-            'color': 'white'
+            'font-family': "'Shadows into Light', cursive",
+            'color': 'black'
           });
 
           board.css({
             'margin': '0 auto',
-            'border': 'double',
-            'border-color': 'black',
             'height': '450px',
             'width': '450px',
-            // 'position': 'absolute'
             'top': '10%',
-            // 'left': '25%',
             'position' : 'relative'
           });
 
           $('h1').css({
             'margin': '0',
             'padding': '0',
-            'position': 'absolute '
+            'position': 'absolute',
+            'color': 'white'
           });
 
           timer.css('bottom', '-50px');
-
           messageBoard.css({
             'position': 'absolute',
             'left': '150px',
@@ -144,15 +150,14 @@ $(document).ready(function () {
 
           column.css({
             'border-style': 'solid',
+            'border-width': 'thin',
             'border-color': 'black',
             'width': '150px',
             'height': '150px',
             'text-align': 'center',
             'font-size': '100px'
           });
-      // }) //End of button;
 
-    //Fucking game logic of tic tac toe
 
     //Creating an empty array of arrays to store the tictactoe value
     boardData = [[ 0, 0, 0], [ 0, 0, 0], [0, 0, 0]];
@@ -240,8 +245,8 @@ $(document).ready(function () {
               playerOneScore ++;
               currentRoundNumber ++;
             }
-          scoreBoardOne.text(playerOne + ' Score: ' + playerOneScore);
-          scoreBoardTwo.text(playerTwo + ' Score: ' + playerTwoScore);
+          scoreBoardOne.text(playerOne + "'s Score: " + playerOneScore);
+          scoreBoardTwo.text(playerTwo + "'s Score: " + playerTwoScore);
           secondsPassed = 0;
           column.empty();
           boardData = [[0,0, 0], [0, 0, 0], [0, 0, 0]];
@@ -288,7 +293,7 @@ $(document).ready(function () {
             currentPlayer = playerOne;
             nextPlayer = playerTwo; //It should be the next player's turn after the click
             messageBoard.text(nextPlayer + "'s turn");
-            $(this).text(playerOneSymbol);
+            $(this).text(playerOneSymbol).css('color', 'red');
             boardData[rowIndex][columnIndex] = 1;
 
           } else {
@@ -296,7 +301,7 @@ $(document).ready(function () {
             currentPlayer = playerTwo;
             nextPlayer = playerOne;
             messageBoard.text(nextPlayer + "'s turn");
-            $(this).text(playerTwoSymbol);
+            $(this).text(playerTwoSymbol).css('color', 'blue');
             boardData[rowIndex][columnIndex] = -1;
           }
           secondsPassed = 0;
@@ -324,16 +329,18 @@ $(document).ready(function () {
           randomPlacement();
         } else {
           if(turn % 2 === 0){
-            $('.'+storage+'>.'+ storage2).text(playerOneSymbol);
+            $('.'+storage+'>.'+ storage2).text(playerOneSymbol).css('color', 'red');
             boardData[storage][storage2] = 1;
           } else {
-            $('.'+storage+'>.'+ storage2).text(playerTwoSymbol);
+            $('.'+storage+'>.'+ storage2).text(playerTwoSymbol).css('color', 'blue');
             boardData[storage][storage2] = -1;
           }
         }
       }
 
     // Setting the timer function to count down
+      var countDownTimer = 1000;
+
         function countDown(){
 
           myCountDown = window.setInterval(function(){
@@ -351,9 +358,11 @@ $(document).ready(function () {
                 ifDraw();
 
                 } else if (turn % 2 === 0){
+                currentPlayer = playerOne;
                 nextPlayer = playerOne;
                 messageBoard.text(nextPlayer + "'s turn.");
               } else {
+                currentPlayer = playerTwo;
                 nextPlayer = playerTwo;
                 messageBoard.text(nextPlayer + "'s turn.");
               }
@@ -364,7 +373,7 @@ $(document).ready(function () {
             secondsPassed ++;
             checkWin();
 
-          }, 100)
+          }, countDownTimer)
         }
 
         // Calling the timer interval
@@ -388,8 +397,26 @@ $(document).ready(function () {
           }
         });
 
+        board.append($('<button id="crazyMode">').text('Crazy mode'));
+        var crazyMode = $('#crazyMode')
+
+        crazyMode.css({
+          'bottom': '-50px',
+          'right': '0px'
+        })
+        crazyMode.on('click', function () {
+          secondsPassed = 0;
+          timerLength = 1;
+          countDownTimer = 100;
+          numberOfRounds = 1000;
+        })
 
 
-  })
+        // Go crazy mode
+
+
+  }) // End of start button
+
+
 
 });
