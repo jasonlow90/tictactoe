@@ -18,34 +18,68 @@ var boardData;
 
 $(document).ready(function () {
 
+
+  $('html').css({
+    'margin': '0',
+    'padding': '0',
+    'width': '100%',
+    'height': '100%'
+  });
+
     var body = $('body');
-    body.append($('<button id="startButton">').text('Normal mode'));
-    var startButton = $('#startButton');
+    body.append($('<button id="startButton">').text('Start Game'));
+    body.css({
+      'background' : 'url(http://www.calljourney.com/wp-content/uploads/blackboard.jpg) no-repeat center center',
+      'background-size': 'cover',
+      'text-align': 'center',
+      'margin': '0',
+      'padding': '0',
+      'width': '100%',
+      'height': '100%',
+      'font-family': "'Shadows into Light', cursive",
+      'color': 'black'
+    });
+
+    var startButton = $('#startButton')
+    startButton.css({
+      'position': 'absolute',
+      'left': '44%',
+      'bottom': '35%',
+      'font-size': '20px'
+    })
+
+    body.append($('<div class="label">'));
+    var labelDiv = ($('.label'));
+
+    labelDiv.css({
+      'position': 'absolute',
+      'top': '25%',
+      'left': '42%',
+      'font-size': '18px'
+    });
+
+    labelDiv.append($("<label>Player One's Name <input id='playerOne' type='text' maxlength='10' value='Player One'></label>"));
+    labelDiv.append($("<label>Player Two's Name <input id='playerTwo' type='text' maxlength='10' value='Player Two'></label>"));
+    labelDiv.append($("<label>Player One's Token <input id='playerOneSymbol' type='text' maxlength='1' value='X'></label>"));
+    labelDiv.append($("<label>Player Two's Token <input id='playerTwoSymbol' type='text'  maxlength='1' value='O'></label>"));
+
+    var inputs = ($('input'));
+
+    inputs.css({
+      'display': 'block',
+    })
 
     startButton.on('click', function(){
 
       startButton.hide();
 
-      // var timerLength = prompt('Please set a length for the timer in seconds');
-      // var numberOfRounds = prompt('Please set the number of rounds');
-
       // Mapping CSS selector to variables to make life simpler:
-      var playerOne = prompt("Player 1's name?");
-      var playerTwo = prompt("Player 2's name?");
-      var playerOneSymbol = prompt("Please pick a character as your token");
-      var playerTwoSymbol = prompt("Please pick a character as your token");
-      // var whichMode = prompt("Please select: 1. Normal mode 2. WTF mode");
-      //
-      //   if(this === 1){
-      //     timerLength = 30;
-      //     numberOfRounds = 5;
-      //   } else if (this === 2){
-      //     timerLength = 0.1;
-      //     numberOfRounds = 1000;
-      //   } else {
-      //     whichMode;
-      //   }
-      // }
+      var playerOne = $('#playerOne').val();
+      var playerTwo = $('#playerTwo').val();
+      var playerOneSymbol = $('#playerOneSymbol').val();
+      var playerTwoSymbol = $('#playerTwoSymbol').val();
+
+      labelDiv.hide();
 
       nextPlayer = playerOne;
 
@@ -68,47 +102,34 @@ $(document).ready(function () {
 
       var messageBoard = $('#message');
 
+      //Making the board of tictactoe
+      var column, row;
+
+      for (var i = 0; i <= 2; i++) {
+        board.append($('<div class="row ' + i + '">'));
+      }
+
+      row = $('.row');
+
+      for (var i = 0; i <= 2; i++) {
+        row.append($('<div class ="column ' + i + '">'));
+      }
+
+      column = $('.column');
       // Making the timer
       board.append($('<h1 id="timer">'));
       var timer = $('#timer');
 
-      var column, row;
 
-          for (var i = 0; i <= 2; i++) {
-            board.append($('<div class="row ' + i + '">'));
-          }
-
-          row = $('.row');
-
-          for (var i = 0; i <= 2; i++) {
-            row.append($('<div class ="column ' + i + '">'));
-          }
-
-          column = $('.column');
-
-  //Reset button
+  //Reset button:
           board.append($('<button id="reset">').text('Reset'));
+
+  // Crazy mode function:
+          board.append($('<button id="crazyMode">').text("Don't Click Me"));
+          var crazyMode = $('#crazyMode')
 
     //CSS part
 
-          $('html').css({
-            'margin': '0',
-            'padding': '0',
-            'width': '100%',
-            'height': '100%'
-          });
-
-          body.css({
-            'background' : 'url(http://www.calljourney.com/wp-content/uploads/blackboard.jpg) no-repeat center center',
-            'background-size': 'cover',
-            'text-align': 'center',
-            'margin': '0',
-            'padding': '0',
-            'width': '100%',
-            'height': '100%',
-            'font-family': "'Shadows into Light', cursive",
-            'color': 'black'
-          });
 
           board.css({
             'margin': '0 auto',
@@ -128,7 +149,7 @@ $(document).ready(function () {
           timer.css('bottom', '-50px');
           messageBoard.css({
             'position': 'absolute',
-            'left': '150px',
+            'left': '120px',
             'top': '-50px'
           });
 
@@ -158,7 +179,11 @@ $(document).ready(function () {
             'font-size': '100px'
           });
 
-
+          crazyMode.css({
+            'bottom': '0px',
+            'right': '-120px',
+            'position': 'relative'
+          })
     //Creating an empty array of arrays to store the tictactoe value
     boardData = [[ 0, 0, 0], [ 0, 0, 0], [0, 0, 0]];
 
@@ -382,9 +407,6 @@ $(document).ready(function () {
         // Reset button function
         $('#reset').on('click', function(){
 
-          // if (currentRoundNumber !== (numberOfRounds + 1)){
-          //   return false;
-          // } else {
             clearInterval(myCountDown);
             column.empty();
             boardData = [[ 0, 0, 0], [0, 0, 0], [0, 0, 0]];
@@ -398,16 +420,10 @@ $(document).ready(function () {
             numberOfRounds = 5;
             countDown();
             column.on('click', getIndices);
-          // }
+
         });
 
-        board.append($('<button id="crazyMode">').text('Crazy mode'));
-        var crazyMode = $('#crazyMode')
-
-        crazyMode.css({
-          'bottom': '-50px',
-          'right': '0px'
-        })
+        //Crazy mode function:
         crazyMode.on('click', function () {
           clearInterval(myCountDown);
           secondsPassed = 0;
@@ -417,8 +433,6 @@ $(document).ready(function () {
           countDown();
         })
 
-
-        // Go crazy mode
 
 
   }) // End of start button
