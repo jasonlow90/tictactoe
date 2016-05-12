@@ -130,7 +130,7 @@ $(document).ready(function () {
           board.append($('<button id="reset">').text('Reset'));
 
   // Crazy mode button to make the game runs fast:
-          board.append($('<button id="crazyMode">').text("Don't Click Me"));
+          board.append($('<button id="crazyMode">').text("Entertain Me"));
           var crazyMode = $('#crazyMode')
 
     //CSS part
