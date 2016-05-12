@@ -16,5 +16,5 @@ Click the crazy mode button if you are bored to see a fast random generated tic 
 ### Things to improve:
 
 - Poor planning at the beginning of this project; Took me longer than expected to finish the timer function.
-- Need to improve my problem solving approach; I should broken each part of the game into smaller sections and solve each section one      at a time for better time management and easier-to-read codes.
+- Need to improve my problem solving approach; I should have broken up each part of the game into smaller sections and solve each section one at a time for better time management and easier-to-read codes.
 - Too many magic numbers. Need to work on my DRY and KISS.
