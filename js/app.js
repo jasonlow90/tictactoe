@@ -427,7 +427,7 @@ $(document).ready(function () {
         crazyMode.on('click', function () {
           clearInterval(myCountDown);
           secondsPassed = 0;
-          timerLength = 1;
+          timerLength = 10;
           countDownTimer = 1;
           numberOfRounds = 1000;
           countDown();
