@@ -154,7 +154,7 @@ $(document).ready(function () {
           });
 
           scoreBoardDiv.css({
-            'left': '-250px',
+            'left': '-70%',
             'font-size': '16px'
           })
 
