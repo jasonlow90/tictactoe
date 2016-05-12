@@ -13,7 +13,7 @@ var numberOfRounds = 5;
 var currentRoundNumber = 1;
 var countDownTimer;
 
-var storage, storage2;
+var storage, torage2;
 var boardData;
 
 $(document).ready(function () {
@@ -339,7 +339,7 @@ $(document).ready(function () {
       }
 
     // Setting the timer function to count down
-      var countDownTimer = 1000;
+      countDownTimer = 1000;
 
         function countDown(){
 
@@ -382,9 +382,10 @@ $(document).ready(function () {
         // Reset button function
         $('#reset').on('click', function(){
 
-          if (currentRoundNumber !== (numberOfRounds + 1)){
-            return false;
-          } else {
+          // if (currentRoundNumber !== (numberOfRounds + 1)){
+          //   return false;
+          // } else {
+            clearInterval(myCountDown);
             column.empty();
             boardData = [[ 0, 0, 0], [0, 0, 0], [0, 0, 0]];
             turn = 0;
@@ -392,9 +393,12 @@ $(document).ready(function () {
             playerOneScore = 0;
             playerTwoScore = 0;
             currentRoundNumber = 1;
+            timerLength = 10;
+            countDownTimer = 1000;
+            numberOfRounds = 5;
             countDown();
             column.on('click', getIndices);
-          }
+          // }
         });
 
         board.append($('<button id="crazyMode">').text('Crazy mode'));
@@ -405,10 +409,12 @@ $(document).ready(function () {
           'right': '0px'
         })
         crazyMode.on('click', function () {
+          clearInterval(myCountDown);
           secondsPassed = 0;
           timerLength = 1;
-          countDownTimer = 100;
+          countDownTimer = 1;
           numberOfRounds = 1000;
+          countDown();
         })
 
 
