@@ -125,7 +125,7 @@ $(document).ready(function () {
           board.append($('<button id="reset">').text('Reset'));
 
   // Crazy mode function:
-          board.append($('<button id="crazyMode">').text("Don't Click Me"));
+          board.append($('<button id="crazyMode">').text("Entertain Me"));
           var crazyMode = $('#crazyMode')
 
     //CSS part
@@ -257,7 +257,7 @@ $(document).ready(function () {
           }
         }
 
-    //Writing game's over function:
+    //Writing game over function:
       function checkRound(){
           if (turn === 9){
             messageBoard.text("It's a draw!");
@@ -288,7 +288,7 @@ $(document).ready(function () {
       }
 
 
-      // Draw function
+      // What happens if the game is a tie?
 
       function ifDraw(){
         messageBoard.text("It's a draw!")
@@ -298,6 +298,7 @@ $(document).ready(function () {
         turn = 0;
 
       }
+
     //To map the value onto the boardData as user clicks on the board
       function getIndices (){
         var rowIndex = $(this).parent().attr('class').split(' ')[1];
@@ -306,10 +307,10 @@ $(document).ready(function () {
         if (boardData[rowIndex][columnIndex] !== 0){
           return false;
         }
-        //To review draw when no winner is decided at the end of the round
         //To alternate between player 1 and 2
         checkWin();
 
+        //To review draw when no winner is decided at the end of the round
         if (turn === (9-1)) {
           ifDraw();
 
