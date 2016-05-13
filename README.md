@@ -13,6 +13,9 @@ Click the crazy mode button if you are bored to see a fast random generated tic 
 - Make a smart winning logic that allows a bigger tic tac toe grid size.
 - Write an impossible to win program.
 
+### Difficulties:
+- Timer function is more complicated than I expected it to be. The program will randomly make a move for any player when the timer is up and it also has to check for winner and if draw.
+
 ### Things to improve:
 
 - Poor planning at the beginning of this project; Took me longer than expected to finish the timer function.

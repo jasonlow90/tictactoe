@@ -317,6 +317,7 @@ $(document).ready(function () {
         checkWin();
 
         if (turn === (9-1)) {
+          $(this).text(playerOneSymbol).css('color', 'red');
           ifDraw();
 
           } else if (turn % 2 === 0) {
@@ -380,6 +381,7 @@ $(document).ready(function () {
           scoreBoardTwo.text(playerTwo + "'s Score: " + playerTwoScore);
           messageBoard.text(nextPlayer + "'s turn.")
           roundRemaining.text('Rounds left: ' + (numberOfRounds - currentRoundNumber +1));
+          checkWin();
 
             if ((timerLength-secondsPassed) === 0){
               randomPlacement();
@@ -398,7 +400,6 @@ $(document).ready(function () {
                 messageBoard.text(nextPlayer + "'s turn.");
               }
               secondsPassed = 0;
-              checkWin();
 
             }
             secondsPassed ++;
