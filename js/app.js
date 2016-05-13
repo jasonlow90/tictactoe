@@ -197,12 +197,12 @@ $(document).ready(function () {
     function checkWin(){
 
       //Checking horizontal
-      var rowCheckOne = 0;
-      var rowCheckTwo = 0;
-      var rowCheckThree = 0;
-      var columnCheckOne = 0;
-      var columnCheckTwo = 0;
-      var columnCheckThree = 0;
+      rowCheckOne = 0;
+      rowCheckTwo = 0;
+      rowCheckThree = 0;
+      columnCheckOne = 0;
+      columnCheckTwo = 0;
+      columnCheckThree = 0;
           for (var y = 0; y < boardData[0].length; y++){
               rowCheckOne += boardData[0][y];
             if (Math.abs(rowCheckOne) === 3){
@@ -257,6 +257,7 @@ $(document).ready(function () {
             checkRound();
           }
 
+          //Checking right diagonal
           if (Math.abs(boardData[2][0] + boardData[1][1] + boardData [0][2]) === 3 ){
             messageBoard.text(currentPlayer + ' won!');
             checkRound();
