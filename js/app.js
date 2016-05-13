@@ -251,6 +251,8 @@ $(document).ready(function () {
             checkRound();
           }
 
+          // Checking right diagonal
+          
           if (Math.abs(boardData[2][0] + boardData[1][1] + boardData [0][2]) === 3 ){
             messageBoard.text(currentPlayer + ' won!');
             checkRound();
