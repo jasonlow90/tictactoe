@@ -252,7 +252,7 @@ $(document).ready(function () {
           }
 
           // Checking right diagonal
-          
+
           if (Math.abs(boardData[2][0] + boardData[1][1] + boardData [0][2]) === 3 ){
             messageBoard.text(currentPlayer + ' won!');
             checkRound();
@@ -301,7 +301,8 @@ $(document).ready(function () {
 
       }
 
-    //To map the value onto the boardData as user clicks on the board
+    // What happens when the column is click?
+    // To map the value onto the boardData as user clicks on the board
       function getIndices (){
         var rowIndex = $(this).parent().attr('class').split(' ')[1];
         var columnIndex = $(this).attr('class').split(' ')[1];
@@ -334,9 +335,9 @@ $(document).ready(function () {
           }
           secondsPassed = 0;
         }
-        column.on('click', getIndices);
 
-      // Function of the reset button
+    // Putting the getIndices function into the click listener
+      column.on('click', getIndices);
 
     // Make a turn for the nextPlayer when timer is up
       function randomPlacement(){
